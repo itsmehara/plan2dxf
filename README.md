@@ -58,17 +58,34 @@ Open it with **AutoCAD, FreeCAD, DraftSight**, or any CAD software.
 ## 🛠 Example Code
 
 ```python
-import ezdxf
-from plan2dxf.builder import draw_rect, add_room_label
+from plan2dxf.builder import PlanBuilder, Room
+from plan2dxf.utils import parse_feet_inches, feet_to_inches
 
-doc = ezdxf.new(dxfversion="R2010")
-msp = doc.modelspace()
 
-# Example: Living Room
-draw_rect(msp, x=0, y=0, w=16.125*12, h=10*12, layer="WALLS")
-add_room_label(msp, "LIVING\n16'1.5\" x 10'0\"", pos=(50, 50))
+# Convert feet-inch strings quickly
+def f2i(s: str) -> float:
+    return feet_to_inches(parse_feet_inches(s))
 
-doc.saveas("home_plan.dxf")
+
+# Build a small demo plan
+pb = PlanBuilder()
+
+# Outer boundary 32' x 38'3"
+pb.add_wall_frame(0, 0, f2i("32'"), f2i("38'3\""), thickness=6.0)
+
+# Add rooms
+pb.add_room(Room(name="LIVING\n16'1.5\" x 10'0\"", x=12, y=12, 
+                 width=f2i("16'1.5\""), height=f2i("10'")))
+
+pb.add_room(Room(name="DINING\n14'6\" x 10'0\"", x=f2i("16'1.5\"") + 24, y=12, 
+                 width=f2i("14'6\""), height=f2i("10'")))
+
+pb.add_room(Room( name="KITCHEN\n10'10.5\" x 10'0\"", x=12, y=f2i("10'") + 36, 
+                  width=f2i("10'10.5\""), height=f2i("10'")))
+
+# Save output
+pb.save("home_plan.dxf")
+print(" DXF file generated: home_plan.dxf")
 ```
 
 ---
