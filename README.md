@@ -90,6 +90,37 @@ print(" DXF file generated: home_plan.dxf")
 
 ---
 
+### 📦 Build & Install from Source
+
+To build the package (wheel + source distribution), run:
+
+```bash
+pip install --upgrade build setuptools wheel
+python setup.py sdist bdist_wheel
+```
+
+This will generate files under `dist/`, for example:
+
+```
+dist/
+ ├── plan2dxf-0.1.0-py3-none-any.whl
+ └── plan2dxf-0.1.0.tar.gz
+```
+
+To install locally from the wheel:
+
+```bash
+pip install dist/plan2dxf-0.1.0-py3-none-any.whl
+```
+
+Or in development/editable mode (recommended while coding):
+
+```bash
+pip install -e .
+```
+
+---
+
 ## 🔮 Roadmap
 
 * [ ] Add **automatic tracing** from uploaded floor plan images (using OpenCV).
