@@ -1,7 +1,7 @@
 
-```markdown
 # plan2dxf
 
+```markdown
 A Python utility to convert **floor plan sketches, images, or dimensions** into clean **AutoCAD DXF files**.  
 This helps architects, engineers, and DIY home designers quickly digitize layouts for use in AutoCAD or any CAD software that supports DXF.
 ```
