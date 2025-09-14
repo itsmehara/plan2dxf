@@ -1,0 +1,2 @@
+# List of Python dependencies
+ezdxf>=1.0
