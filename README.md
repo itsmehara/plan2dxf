@@ -32,7 +32,7 @@ A full-fledged utility that can take sketches or images and auto-convert them.
 plan2dxf/
 ├── examples/        # Sample scripts & generated DXF files
 ├── plan2dxf/        # Core source code
-│    ├── **init**.py
+│    ├── __init__.py
 │    ├── builder.py  # Functions to create rooms, walls, text
 │    ├── utils.py    # Helpers (unit conversions, scaling)
 ├── README.md        # Project documentation
