@@ -65,9 +65,13 @@ class PlanBuilder:
         Use insert in inches.
         """
         # ezdxf recommends MText for multiline; fallback to simple Text entities
-        mtext = self.msp.add_mtext(text, dxfattribs={"layer": "TEXT"})
-        mtext.set_location(insert, rotation=0, width=200)
-        mtext.dxf.char_height = height
+        msp = self.doc.modelspace()
+        mtext = msp.add_mtext(text, dxfattribs={
+            "style": "OpenSans",
+            "char_height": 20,
+            "width": 200  # set width here
+        })
+        mtext.set_location(insert, rotation=0)
 
     def add_wall_frame(self, x: float, y: float, w: float, h: float, thickness: float = 4.0):
         """Draw double-lined wall frame: outer and inner polyline offset by thickness.
