@@ -15,6 +15,14 @@ This helps architects, engineers, and DIY home designers quickly digitize layout
 - Works with **feet & inches** (scaled in DXF).
 - Extendable for windows, doors, furniture outlines.
 
+
+## Current code = A structured DXF generator (from given dimensions).
+It lets you digitize a plan if you already know the room dimensions.
+
+
+## Objective 
+A full-fledged utility that can take sketches or images and auto-convert them.
+
 ---
 
 ## 📂 Project Structure
@@ -118,6 +126,27 @@ Or in development/editable mode (recommended while coding):
 ```bash
 pip install -e .
 ```
+
+---
+
+### ✅ Current Capabilities (what your code can already do)
+
+1. **DXF Creation:** Uses `ezdxf` to generate valid AutoCAD DXF files.
+2. **Outer Frame Drawing:** Can draw a house boundary rectangle (wall frame with thickness).
+3. **Room Rectangles:** You can define rooms (name, x, y, width, height), and it creates rectangles for them.
+4. **Room Labels:** Adds text (name + dimensions) inside each room, properly placed in the DXF.
+5. **Utility Functions:** Includes helpers like `parse_feet_inches` and `feet_to_inches` for handling dimension strings like `16'1.5"`.
+6. **Example Script:** `examples/home_plan.py` demonstrates how to build a small house plan and export as DXF.
+
+---
+
+### ❌ Not Yet Implemented (what’s missing vs. objective)
+
+* 🚫 **Image-to-DXF Conversion:** No tracing of scanned sketches/photos yet.
+* 🚫 **Auto Layout Extraction:** Doesn’t detect rooms, walls, or doors from images.
+* 🚫 **Symbols (doors, windows, furniture):** Not added yet.
+* 🚫 **Dimensioning Tools:** No auto-dimension lines or scale annotations.
+* 🚫 **Config-driven Input:** No YAML/JSON or GUI input — rooms are still hardcoded in Python.
 
 ---
 
