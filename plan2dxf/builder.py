@@ -9,18 +9,18 @@ from dataclasses import dataclass
 from typing import Tuple
 
 import ezdxf
+from ezdxf.enums import TextEntityAlignment
 from ezdxf import colors
-
 from .utils import feet_to_inches
 
 
-@dataclass
 class Room:
-    name: str
-    x: float
-    y: float
-    width: float
-    height: float
+    def __init__(self, name: str, x: float, y: float, width: float, height: float):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
 
 
 class PlanBuilder:
@@ -29,24 +29,31 @@ class PlanBuilder:
     Coordinates and sizes are expected in **inches** for the DXF modelspace.
     Use the `feet_to_inches()` helper to convert from feet.
     """
-
     def __init__(self, dxf_version: str = "R2010"):
         self.doc = ezdxf.new(dxfversion=dxf_version)
         self.msp = self.doc.modelspace()
-        self._ensure_layers()
 
-    def _ensure_layers(self):
-        # Create common layers if not exists
-        layers = {
-            "WALLS": colors.RED,
-            "TEXT": colors.BLUE,
-            "FURNITURE": colors.GREEN,
-            "DIMENSIONS": colors.BYLAYER,
-        }
-        for name, color in layers.items():
-            if name not in self.doc.layers:
-                self.doc.layers.new(name=name, dxfattribs={"color": color})
+        # Define default layers
+        self._init_layers()
 
+    # -----------------------------
+    # Layer Management
+    # -----------------------------
+    def _init_layers(self):
+        self._add_layer("WALLS", color=7)
+        self._add_layer("TEXT", color=2)
+        self._add_layer("DOORS", color=3)
+        self._add_layer("WINDOWS", color=4)
+        self._add_layer("FURNITURE", color=5)
+        self._add_layer("DIMENSIONS", color=6)
+
+    def _add_layer(self, name: str, color: int = 7):
+        if name not in self.doc.layers:
+            self.doc.layers.add(name, dxfattribs={"color": color})
+
+    # -----------------------------
+    # Core Primitives
+    # -----------------------------
     def add_room(self, room: Room, wall_thickness: float = 4.0):
         """Add a room as a rectangle (outer wall polyline). wall_thickness in inches.
 
@@ -84,7 +91,8 @@ class PlanBuilder:
         self.msp.add_lwpolyline(outer, dxfattribs={"layer": "WALLS", "closed": True})
         self.msp.add_lwpolyline(inner, dxfattribs={"layer": "WALLS", "closed": True})
 
-    def save(self, path: str):
-        """Save DXF document to given path."""
-        self.doc.saveas(path)
-
+    # -----------------------------
+    # Save
+    # -----------------------------
+    def save(self, filepath: str):
+        self.doc.saveas(filepath)
